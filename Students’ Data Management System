@@ -1,0 +1,142 @@
+#include <bits/stdc++.h>
+using namespace std;
+struct Student {
+    string name="";
+    double gpa=0;
+    int age=0;
+};
+int main() {
+    ifstream input;
+    input.open("file.txt",ios::in);
+    ofstream output;
+    output.open("file.txt",ios::app); // Open for appending;
+
+    if (!input.is_open() || !output.is_open()) {
+        cout << "Failed to open the file." << endl;
+        return 1;
+    }
+
+    int choice;
+    cout << "Choose 1 an option:\n1. Read data from file\n2. Update data in file\n3. Search data in file\n4. add new data to the file\n5. delete data\n0. Stop the program\n";
+    cin >> choice;
+    vector<Student> filelines;
+    Student s1;
+    while(input>>s1.name>>s1.age>>s1.gpa)
+    {
+        filelines.push_back(s1);
+    } //lood file contents
+    while (choice != 0)
+    {
+        switch (choice) {
+            case 1:
+            {
+                // read all data in the file
+                for(int i=0;i<filelines.size();i++)
+                {
+                    cout<<filelines[i].name<<" "<<filelines[i].age<<" "<<filelines[i].gpa<<endl;
+                }
+                break;
+            }/// print all data
+            case 2: {
+                //cout << "Update data in the file\n";
+                string s;
+                cout << "enter name you want to update  it's values\n";
+                cin >> s;
+                bool f = false;
+                int i = 0;
+                for (; i < filelines.size(); i++) {
+                    if (filelines[i].name == s) {
+                        f = true;
+                        break;
+                    }
+                }
+                if (f == 1)
+                {
+                    cout << "found\n";
+                    cin>>filelines[i].name>>filelines[i].age>>filelines[i].gpa;
+                    cout << filelines[i].name << " " << filelines[i].age << " " << filelines[i].gpa << " " << endl;
+                } else
+                {
+                    cout << "not found\n";
+                }
+
+
+                break;
+            }/// update data
+            case 3: {
+                //   cout << "Search in the file\n";
+                string s;
+                cout << "enter name you want to search for it's values\n";
+                cin >> s;
+                bool f = false;
+                int i = 0;
+                for (; i < filelines.size(); i++) {
+                    if (filelines[i].name == s) {
+                        f = true;
+                        break;
+                    }
+                }
+                if (f == 1)
+                {
+                    cout << "found\n";
+                    cout << filelines[i].name << " " << filelines[i].age << " " << filelines[i].gpa << " " << endl;
+                } else
+                {
+                cout << "not found\n";
+                }
+                break;
+            }///search data
+            case 4:
+            {
+                // add new data to the file
+                cin >> s1.name >> s1.gpa >> s1.age;
+                //output << s1.name <<" " <<s1.age <<" "<< s1.gpa <<" "<<endl;
+                cout<<"added successfully\n";
+                filelines.push_back(s1);
+                break;
+            }/// add new data
+            case 5:
+            {
+                string s;
+                cout << "enter name you want to delete it's values\n";
+                cin >> s;
+                bool f = false;
+                int i = 0;
+                for (; i < filelines.size(); i++) {
+                    if (filelines[i].name == s) {
+                        f = true;
+                        break;
+                    }
+                }
+                if (f == 1)
+                {
+                    cout << "found\n";
+                    auto it=filelines.begin();
+                    advance(it,i);
+                    filelines.erase(it);
+                    cout<<"deleted successfully\n";
+                } else
+                {
+                    cout << "not found\n";
+                }
+
+                break;
+            }/// dalete data
+        }
+        cout << "Choose an option:\n1. Read data from file\n2. Update data in file\n3. Search data in file\n4. add new data to the file\n5. delete data\n0. Stop the program\n";
+        cin >> choice;
+    }
+    input.close();
+    output.close();
+    output.open("file.txt",ofstream::trunc);
+    for(int i=0;i<filelines.size();i++)
+    {
+        if(i==0)
+        {
+            cout<<endl;
+        }
+        output<<filelines[i].name<<" "<<filelines[i].age<<" "<<filelines[i].gpa<<endl;
+    }
+    output.close();
+    return 0;
+}
